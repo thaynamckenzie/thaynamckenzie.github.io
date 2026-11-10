@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -152,4 +151,72 @@ footer {
     .hero {
         padding: 100px 0;
     }
+    
+/* DEVLOG PAGE */
+
+.devlog-hero {
+    padding: 110px 0 80px;
+    }
+
+.devlog-meta {
+    color: #777 !important;
+    font-size: 13px;
+    margin-top: 15px;
+    }
+
+.devlog-section {
+    padding: 65px 0;
+    border-top: 1px solid #292929;
+    }
+
+.devlog-section h3 {
+    font-size: 22px;
+    margin: 45px 0 15px;
+    }
+
+.devlog-section p {
+    color: #aaa;
+    max-width: 750px;
+    margin-bottom: 20px;
+    }
+
+.devlog-section ul {
+    margin: 20px 0 30px 25px;
+    color: #aaa;
+    }
+
+.devlog-section li {
+    margin-bottom: 8px;
+    }
+
+.devlog-image {
+    margin: 35px 0;
+    max-width: 850px;
+    }
+
+.devlog-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+    border: 1px solid #292929;
+    }
+
+.devlog-image figcaption {
+    color: #777;
+    font-size: 12px;
+    margin-top: 12px;
+    line-height: 1.6;
+    }
+
+@media (max-width: 600px) {
+    .devlog-hero {
+        padding: 80px 0 60px;
+    }
+
+    .devlog-section {
+        padding: 55px 0;
+    }
+    }
+
 }
