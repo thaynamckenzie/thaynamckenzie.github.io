@@ -1,3 +1,6 @@
+
+/* GENERAL RESET */
+
 * {
     margin: 0;
     padding: 0;
@@ -14,6 +17,8 @@ body {
     font-family: Arial, sans-serif;
     line-height: 1.7;
 }
+
+/* HEADER */
 
 header {
     display: flex;
@@ -44,21 +49,12 @@ nav a:hover, .project a:hover {
     color: white;
 }
 
+/* MAIN CONTENT */
+
 main {
     max-width: 1100px;
     margin: auto;
     padding: 0 8%;
-}
-
-.hero {
-    padding: 140px 0;
-}
-
-.eyebrow {
-    color: #a58bff;
-    font-size: 12px;
-    letter-spacing: 3px;
-    margin-bottom: 20px;
 }
 
 h1 {
@@ -71,10 +67,44 @@ h1 span {
     color: #a58bff;
 }
 
+h2 {
+    font-size: 36px;
+    margin-bottom: 25px;
+}
+
+h3 {
+    font-size: 27px;
+    margin: 35px 0 15px;
+}
+
+.eyebrow {
+    color: #a58bff;
+    font-size: 12px;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+
 .intro {
     color: #aaa;
     max-width: 500px;
     margin-bottom: 35px;
+}
+
+section:not(.hero):not(.devlog-hero) {
+    padding: 90px 0;
+    border-top: 1px solid #292929;
+}
+
+section p:not(.eyebrow) {
+    color: #aaa;
+    max-width: 750px;
+    margin-bottom: 20px;
+}
+
+/* PROJECT PAGE */
+
+.hero {
+    padding: 140px 0;
 }
 
 .button {
@@ -85,21 +115,6 @@ h1 span {
     text-decoration: none;
     border-radius: 4px;
     font-weight: bold;
-}
-
-section:not(.hero) {
-    padding: 90px 0;
-    border-top: 1px solid #292929;
-}
-
-h2 {
-    font-size: 36px;
-    margin-bottom: 25px;
-}
-
-section p:not(.eyebrow) {
-    color: #aaa;
-    max-width: 650px;
 }
 
 .project {
@@ -116,15 +131,99 @@ section p:not(.eyebrow) {
     letter-spacing: 2px;
 }
 
-h3 {
-    font-size: 27px;
-    margin: 15px 0;
-}
-
 .project a {
     display: inline-block;
     margin-top: 20px;
 }
+
+/* DEVLOG INTRODUCTION */
+
+.devlog-hero {
+    padding: 110px 0 80px;
+}
+
+.devlog-meta {
+    color: #777 !important;
+    font-size: 13px;
+    margin-top: 15px;
+}
+
+/* DEVLOG SECTIONS */
+
+.devlog-section {
+    padding: 65px 0;
+    border-top: 1px solid #292929;
+}
+
+.devlog-section h3 {
+    font-size: 22px;
+    margin: 45px 0 15px;
+}
+
+.devlog-section ul {
+    margin: 20px 0 30px 25px;
+    color: #aaa;
+}
+
+.devlog-section li {
+    margin-bottom: 8px;
+}
+
+/* DEVLOG IMAGES - GENERAL */
+
+.devlog-image {
+    margin: 35px 0;
+    max-width: 850px;
+}
+
+.devlog-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.devlog-image figcaption {
+    color: #858585;
+    font-size: 12px;
+    margin-top: 15px;
+    line-height: 1.7;
+}
+
+/* STORYBOARD IMAGE */
+
+.storyboard-image {
+    background: #d8cdbe;
+    padding: 18px;
+    border-radius: 10px;
+    border: 1px solid #a58bff;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.storyboard-image img {
+    border-radius: 4px;
+}
+
+/* DARK VALUES TABLE */
+
+.table-image {
+    background: #191919;
+    padding: 14px;
+    border: 1px solid #383838;
+    border-radius: 10px;
+}
+
+.table-image img {
+    border-radius: 4px;
+}
+
+/* IMAGE HOVER */
+
+.devlog-image:hover img {
+    transform: scale(1.01);
+}
+
+/* FOOTER */
 
 footer {
     border-top: 1px solid #292929;
@@ -134,89 +233,3 @@ footer {
     font-size: 13px;
 }
 
-@media (max-width: 600px) {
-    header {
-        padding: 20px 6%;
-    }
-
-    nav {
-        gap: 14px;
-        font-size: 13px;
-    }
-
-    main {
-        padding: 0 6%;
-    }
-
-    .hero {
-        padding: 100px 0;
-    }
-    
-/* DEVLOG PAGE */
-
-.devlog-hero {
-    padding: 110px 0 80px;
-    }
-
-.devlog-meta {
-    color: #777 !important;
-    font-size: 13px;
-    margin-top: 15px;
-    }
-
-.devlog-section {
-    padding: 65px 0;
-    border-top: 1px solid #292929;
-    }
-
-.devlog-section h3 {
-    font-size: 22px;
-    margin: 45px 0 15px;
-    }
-
-.devlog-section p {
-    color: #aaa;
-    max-width: 750px;
-    margin-bottom: 20px;
-    }
-
-.devlog-section ul {
-    margin: 20px 0 30px 25px;
-    color: #aaa;
-    }
-
-.devlog-section li {
-    margin-bottom: 8px;
-    }
-
-.devlog-image {
-    margin: 35px 0;
-    max-width: 850px;
-    }
-
-.devlog-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 6px;
-    border: 1px solid #292929;
-    }
-
-.devlog-image figcaption {
-    color: #777;
-    font-size: 12px;
-    margin-top: 12px;
-    line-height: 1.6;
-    }
-
-@media (max-width: 600px) {
-    .devlog-hero {
-        padding: 80px 0 60px;
-    }
-
-    .devlog-section {
-        padding: 55px 0;
-    }
-    }
-
-}
