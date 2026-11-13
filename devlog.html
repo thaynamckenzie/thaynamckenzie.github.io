@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,7 +48,6 @@
 
         </section>
 
-
         <!-- PROJECT INTRODUCTION -->
 
         <section class="devlog-section">
@@ -78,7 +76,6 @@
 
         </section>
 
-
         <!-- SPRINT 1 -->
 
         <section class="devlog-section" id="sprint1">
@@ -91,7 +88,6 @@
                 The first phase · Research, brainstorming and visualisation
             </p>
 
-
             <h3>Developing the concept</h3>
 
             <p>
@@ -102,7 +98,6 @@
                 what role this technology could play in
                 the relationship between children and parents.
             </p>
-
 
             <h3>Exploring Dark Values</h3>
 
@@ -137,7 +132,6 @@
                 their own storyboard.
             </p>
 
-
             <h3>My storyboard: Indifference</h3>
 
             <p>
@@ -148,15 +142,15 @@
                 their parent is occupied with work.
             </p>
 
-
             <figure class="devlog-image storyboard-image">
-                <img
-                    src="images/Storyboard-sprint1.png"
-                    alt="My hand-drawn storyboard"
-                >
+
+                <img src="images/Storyboard-sprint1.png" alt="My hand-drawn storyboard">
+
                 <figcaption>
-                    Figure 1 — My individual storyboard exploring Indifference.
+                    Figure 1. My individual storyboard,
+                    based on the Dark Value Indifference.
                 </figcaption>
+
             </figure>
 
             <p>
@@ -185,23 +179,18 @@
                 information collected by AI.
             </p>
 
-
             <h3>The Dark Values table</h3>
 
-           
-            
             <figure class="devlog-image table-image">
-                <img
-                    src="images/Darkvaluestable-sprint1.png"
-                    alt="Dark Values table"
-                >
+
+                <img src="images/Darkvaluestable-sprint1.png" alt="Dark Values table">
+
                 <figcaption>
-                    Figure 2 — The Dark Values table used during Sprint 1.
+                    Figure 2. The Dark Values table we
+                    explored during the first sprint.
                 </figcaption>
+
             </figure>
-
-
-
 
             <h3>What did I learn?</h3>
 
@@ -223,7 +212,6 @@
                 the relationship between children and AI.
             </p>
 
-
             <h3>Reflection & next steps</h3>
 
             <p>
@@ -244,7 +232,6 @@
 
         </section>
 
-
         <!-- SPRINT 2 -->
 
         <section class="devlog-section" id="sprint2">
@@ -254,33 +241,452 @@
             <h2>Technical Development</h2>
 
             <p class="devlog-meta">
-                AI implementation · LLM, Speech-to-Text and Text-to-Speech
+                AI implementation · Speech-to-Text, Text-to-Speech and the full pipeline
             </p>
 
             <p>
-                During the second sprint, I started working
-                on the technical side of the project.
-                My main focus was researching and
-                implementing the different AI components
-                needed to make the teddy bear interact
-                through spoken conversations.
+                In sprint 2 I started on the technical side of
+                the project. My job was to give the teddy ears and
+                a voice, so that a child can talk to it and hear
+                an answer back.
+            </p>
+
+            <h3>My part of the system</h3>
+
+            <p>
+                The teddy has three AI parts: Speech-to-Text (STT),
+                a Large Language Model (LLM) and Text-to-Speech (TTS).
+                The LLM and its memory were already made by a teammate.
+                I worked on the STT and the TTS, and I connected all
+                three into one pipeline. I did not change my
+                teammate's code.
             </p>
 
             <p>
-                This included the Large Language Model (LLM),
-                Speech-to-Text (STT) and Text-to-Speech (TTS).
+                For now we use a Wizard of Oz setup. The teddy has
+                no moving parts. A laptop runs the AI, and a
+                microphone and a speaker are used to talk to the
+                teddy. A person (the "wizard") controls each turn
+                from the laptop.
+            </p>
+
+            <div class="devlog-flow">
+                Child speaks → Microphone → <strong>STT</strong> →
+                LLM + memory (existing) → <strong>TTS</strong> →
+                Speaker → Child hears the answer
+            </div>
+
+            <p>
+                Our requirements were: English only, everything runs
+                locally on the laptop (no cloud services), and it has
+                to stay simple enough for a student project.
+            </p>
+
+            <h3>Choosing the tools</h3>
+
+            <p>
+                I started with faster-whisper for the STT and Piper
+                for the TTS. Both run on the laptop, work in English
+                and don't need internet, which is what we wanted.
+                So I stayed with them.
+            </p>
+
+            <div class="devlog-table-wrap">
+                <table class="devlog-table">
+                    <thead>
+                        <tr>
+                            <th>Part</th>
+                            <th>What I used</th>
+                            <th>Why</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Speech-to-Text</td>
+                            <td>faster-whisper, model <code>base.en</code></td>
+                            <td>Runs locally and is English only. I took a small model because my laptop has no graphics card.</td>
+                        </tr>
+                        <tr>
+                            <td>Text-to-Speech</td>
+                            <td>Piper, voice <code>en_US-amy-medium</code></td>
+                            <td>Runs locally. I compared three voices and Amy sounded the friendliest.</td>
+                        </tr>
+                        <tr>
+                            <td>Recording</td>
+                            <td><code>sounddevice</code></td>
+                            <td>A simple way to record the microphone in Python.</td>
+                        </tr>
+                        <tr>
+                            <td>Playing sound</td>
+                            <td><code>afplay</code></td>
+                            <td>Built into macOS. See the problems below.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>
+                Everything is written in Python and runs on my
+                MacBook Air.
+            </p>
+
+            <h3>Step 1: Setting up</h3>
+
+            <p>
+                First I got my teammate's code running on my own
+                laptop. I put it in an <code>ai</code> folder, made
+                a virtual environment (a separate space for this
+                project's Python packages) and installed Ollama and
+                the language model. Then I ran her program once on
+                its own, to see that it worked. That way I knew that
+                if something broke later, it was probably my own code.
+            </p>
+
+            <h3>Step 2: Speech-to-Text</h3>
+
+            <p>
+                The file <code>ai/stt.py</code> records the
+                microphone until I press Enter. Then it gives the
+                recording to faster-whisper, which turns it into text.
+            </p>
+
+            <div class="devlog-code"><code>model = WhisperModel("base.en", device="cpu", compute_type="int8")
+
+def transcribe(audio):
+    segments, _ = model.transcribe(
+        audio, language="en", beam_size=5, vad_filter=True
+    )
+    return " ".join(segment.text.strip() for segment in segments).strip()</code></div>
+
+            <p>
+                <code>int8</code> makes the model lighter so it runs
+                on a normal laptop. <code>vad_filter=True</code> skips
+                silence, because without it Whisper can make up words
+                when nobody is talking.
             </p>
 
             <p>
-                This section will document the research,
-                technical decisions, implementation,
-                challenges and testing process.
+                I tested it on its own by saying "Hello, Teddy. What
+                is your name?" and it wrote down exactly that.
             </p>
+
+            <h3>Step 3: Text-to-Speech and choosing a voice</h3>
+
+            <p>
+                The file <code>ai/tts.py</code> has one function,
+                <code>speak(text)</code>. It runs Piper to make a
+                sound file from the text, and then plays that file.
+            </p>
+
+            <div class="devlog-code"><code>subprocess.run(
+    [sys.executable, "-m", "piper",
+     "-m", str(model_path),
+     "-f", wav_path,
+     "--length-scale", str(SPEED)],
+    input=text, text=True, check=True,
+)
+subprocess.run(["afplay", wav_path], check=True)</code></div>
+
+            <p>
+                The teddy is for children aged 3 to 7, so I listened
+                to three English voices saying the same sentence:
+                <code>en_US-lessac-medium</code>,
+                <code>en_US-amy-medium</code> and
+                <code>en_GB-jenny_dioco-medium</code>.
+                I picked Amy because she sounded the friendliest.
+                I also made the speech a bit slower
+                (<code>SPEED = 1.1</code>, normal is 1.0), because
+                I think slower speech is easier for small children
+                to follow.
+            </p>
+
+            <h3>Step 4: Connecting everything</h3>
+
+            <p>
+                The last file is <code>ai/teddy.py</code>, the main
+                program. It loads the three parts and repeats:
+                listen, think, speak.
+            </p>
+
+            <div class="devlog-code"><code>from ai.llm import ask_teddy, reset_conversation   # existing code, unchanged
+from ai.stt import listen                            # my part
+from ai.tts import speak                             # my part
+
+question = typed if typed else listen()
+answer = ask_teddy(question)
+speak(answer)</code></div>
+
+            <p>
+                My program only talks to the LLM through the
+                <code>ask_teddy()</code> function, so the teddy's
+                memory keeps working without me touching that code.
+            </p>
+
+            <p>
+                I made two choices for the Wizard of Oz setup:
+            </p>
+
+            <ul class="devlog-list">
+                <li>The operator presses Enter to start and stop listening. This is simple, and the teddy does not pick up background noise all the time.</li>
+                <li>The operator can also type a sentence instead of using the microphone, in case the speech recognition mishears the child.</li>
+            </ul>
+
+            <figure class="devlog-image devlog-image-shot">
+
+                <img src="images/Sprint2-first-run.png" alt="Terminal showing the project folder with the ai folder and the first run of the teddy">
+
+                <figcaption>
+                    Figure 3. My project folder, with the three files I
+                    made (<code>stt.py</code>, <code>tts.py</code> and
+                    <code>teddy.py</code>) in the <code>ai</code> folder,
+                    and the first run of the program.
+                </figcaption>
+
+            </figure>
+
+            <figure class="devlog-image devlog-image-shot">
+
+                <img src="images/Sprint2-full-conversation.png" alt="Terminal showing a conversation between a child and the teddy, with timings">
+
+                <figcaption>
+                    Figure 4. A full conversation with the teddy. The teddy
+                    remembers the treasure story between questions, and the
+                    timers show how long hearing, thinking and speaking take.
+                </figcaption>
+
+            </figure>
+
+            <h3>Problems I ran into</h3>
+
+            <p>
+                <strong>Wrong folder.</strong> At first my commands
+                did not work, because I was in the wrong folder in
+                the terminal and my <code>ai</code> folder ended up
+                in the wrong place. Now I check where I am first, and
+                I start the program from the project folder with
+                <code>python -m ai.teddy</code>.
+            </p>
+
+            <p>
+                <strong>The voice crackled.</strong> I first played
+                the sound with a Python library, but on my Mac it
+                made a crackling noise. I switched to
+                <code>afplay</code>, which is built into macOS, and
+                the crackling was gone.
+            </p>
+
+            <p>
+                <strong>The first answer was very slow.</strong> The
+                models only load the first time you use them. I added
+                a warm-up step that runs them once when the program
+                starts. It helped, but in my last test the first answer
+                still took 62.8 seconds. I am not completely sure why.
+            </p>
+
+            <p>
+                <strong>Pasting code by accident.</strong> Once I
+                pasted code into the teddy's input, so the teddy tried
+                to answer every line of code. I stopped it with
+                Ctrl+C. Now I make sure I am at the normal terminal
+                prompt before I paste commands.
+            </p>
+
+            <p>
+                <strong>It does not always understand me.</strong>
+                The speech recognition sometimes writes down something
+                different from what I said. Once I said "Teddy" and it
+                understood "daddy". In my longer test it also wrote
+                down a strange word ("Ebrick Debra") and once it heard
+                nothing at all. This matters, because the teddy's own
+                name is one of the words it has to understand. I have
+                not solved this yet. A wrong word does not only look
+                wrong on the screen, it also changes the answer the
+                child hears (see Figure 5). It is one reason why I kept the
+                option to type a sentence. Two things I want to try are
+                a bigger Whisper model, and giving Whisper a hint that
+                the word "Teddy" is likely to come up.
+            </p>
+
+            <figure class="devlog-image devlog-image-shot">
+
+                <img src="images/Sprint2-teddy-daddy.png" alt="Terminal where the speech recognition wrote 'Hi daddy' and the teddy answered 'I'm Teddy, not daddy'">
+
+                <figcaption>
+                    Figure 5. I said "Teddy" and the speech recognition
+                    wrote "daddy". The teddy then answered "I'm Teddy,
+                    not daddy."
+                </figcaption>
+
+            </figure>
+
+            <h3>How fast is it?</h3>
+
+            <p>
+                I added timers to see where the time goes. In a
+                conversation with seven turns I saw this:
+            </p>
+
+            <ul class="devlog-list">
+                <li>Thinking (the LLM): usually 6 to 11 seconds. The very first answer took 62.8 seconds.</li>
+                <li>Speaking: 8 to 18 seconds. Longer answers take longer, because the teddy is actually talking.</li>
+                <li>Hearing: 3 to 7 seconds, but that includes the time I spend talking and pressing Enter.</li>
+            </ul>
+
+            <p>
+                After the child stops talking, it takes roughly 9 to
+                14 seconds before the teddy starts to answer (the
+                thinking time plus a couple of seconds for Piper to
+                make the sound). That is a long time for a child, but
+                everything runs on my own laptop. I only tested this
+                on my own laptop with my own voice.
+            </p>
+
+            <h3>What the user test tells me</h3>
+
+            <p>
+                In Society 5.0 our group tested the Teddy concept
+                with five people. Five is very few, so the answers
+                are signals and not proof. The testers were probably
+                adults or teenagers and not children, and they seemed
+                to know Teddy from our presentation, which can
+                influence their answers.
+            </p>
+
+            <ul class="devlog-list">
+                <li>Three of the five had mixed feelings about Teddy remembering things.</li>
+                <li>Most felt only a little bit understood by Teddy.</li>
+                <li>Teddy being disappointed when the conversation ended hardly had an effect.</li>
+                <li>Several testers said that helping becomes manipulating when the AI starts steering you, makes you doubt yourself, or pretends to have emotions.</li>
+                <li>The uncomfortable moments were about Teddy replacing a parent and about who can see the data, not about the conversation itself.</li>
+            </ul>
+
+            <p>
+                For my part, this makes me think that a voice that
+                listens and answers makes Teddy feel more real, and
+                that what Teddy remembers and who can see it matters
+                as much as the technology. This is my own idea and
+                not a result from the data.
+            </p>
+
+            <h3>The teddy at the Society festival</h3>
+
+            <p>
+                At the Society 5.0 festival I took photos of the
+                teddy and of some other things at our table.
+            </p>
+
+            <figure class="devlog-image devlog-image-shot devlog-image-portrait">
+
+                <img src="images/Sprint2-teddy-cable.jpeg" alt="Black cables coming out of an opening in the side of the teddy">
+
+                <figcaption>
+                    Figure 6. The cables inside the teddy.
+                </figcaption>
+
+            </figure>
+
+            <figure class="devlog-image devlog-image-shot devlog-image-portrait">
+
+                <img src="images/Sprint2-cardboard-model.jpeg" alt="A small cardboard model of a room with a paper teddy standing on a box">
+
+                <figcaption>
+                    Figure 7. A small cardboard model of a room with a
+                    paper teddy in it.
+                </figcaption>
+
+            </figure>
+
+            <figure class="devlog-image devlog-image-shot devlog-image-portrait">
+
+                <img src="images/Sprint2-storyboard-emma.jpeg" alt="A six-panel storyboard in Dutch about a girl called Emma and her teddy">
+
+                <figcaption>
+                    Figure 8. A storyboard (in Dutch) about Emma and Teddy.
+                </figcaption>
+
+            </figure>
+
+            <h3>Feedback from my teachers</h3>
+
+            <p>
+                At Society I got feedback from two teachers. I
+                translated it from Dutch.
+            </p>
+
+            <p>
+                <strong>Sophie:</strong>
+            </p>
+
+            <ul class="devlog-list">
+                <li>Look for other means for the old model, for example a baby monitor, so that it becomes more playful.</li>
+                <li>Make sure there is more play in it for the child, for example lights.</li>
+                <li>Maybe add an interaction. It does not necessarily have to be a screen.</li>
+            </ul>
+
+            <p>
+                <strong>Rover:</strong>
+            </p>
+
+            <ul class="devlog-list">
+                <li>The idea is cool and we did it well.</li>
+                <li>Only the user interaction could be a bit better.</li>
+            </ul>
+
+            <p>
+                This links to my part of the project. Right now the
+                child only hears a voice, and I have to press Enter
+                on the laptop. The child gets no sign that the teddy
+                is listening or thinking, and the thinking takes
+                9 to 14 seconds. Ideas I want to look at are a light
+                that shows when the teddy is listening, thinking and
+                speaking, and a button on the teddy instead of
+                pressing Enter. These are only ideas for now. I have
+                not built them and we still have to decide them as a
+                group.
+            </p>
+
+            <h3>What did I learn?</h3>
+
+            <ul class="devlog-list">
+                <li>How the parts of a voice assistant fit together: audio to text, text to an answer, and the answer back to audio.</li>
+                <li>How to work with a Python virtual environment, install packages and run programs from the terminal.</li>
+                <li>That you can build a bigger system from small files that each do one job, and reuse a teammate's code without changing it.</li>
+                <li>That measuring each step shows where the slowness really is.</li>
+            </ul>
+
+            <p>
+                I used an AI assistant (Claude) to help me understand
+                and write the code step by step. I ran and tested
+                everything myself on my laptop, and I can explain how
+                each part works.
+            </p>
+
+            <h3>Reflection & next steps</h3>
+
+            <p>
+                In sprint 1 I wrote that I wanted to document my
+                process better. This time I wrote down the problems
+                I ran into and how I solved them. I still want to take
+                more screenshots and photos while I am working, not
+                only afterwards.
+            </p>
+
+            <p>
+                What is not done yet:
+            </p>
+
+            <ul class="devlog-list">
+                <li>The sound is played with <code>afplay</code>, which only works on macOS.</li>
+                <li>The operator has to press Enter to start and stop recording. It would be more natural if the teddy noticed by itself when the child stops talking.</li>
+                <li>A short sentence like "Hmm, let me think!" could cover the waiting time.</li>
+                <li>Make the teddy better at understanding its own name, and look at the feedback about lights and a different kind of interaction.</li>
+                <li>I still have to try it with a child's voice and with the real speaker and teddy.</li>
+                <li>I have not tested separately whether the answers are suitable for children aged 3 to 7.</li>
+            </ul>
 
         </section>
 
     </main>
-
 
     <footer>
         <p>© 2026 Thayna McKenzie · My Developer Journey</p>

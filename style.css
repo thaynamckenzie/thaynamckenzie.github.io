@@ -169,6 +169,10 @@ section p:not(.eyebrow) {
     margin-bottom: 8px;
 }
 
+.devlog-section strong {
+    color: #f2f0ed;
+}
+
 /* DEVLOG IMAGES - GENERAL */
 
 .devlog-image {
@@ -184,7 +188,7 @@ section p:not(.eyebrow) {
 }
 
 .devlog-image figcaption {
-    color: #858585;
+    color: #f2f0ed;
     font-size: 12px;
     margin-top: 15px;
     line-height: 1.7;
@@ -193,7 +197,7 @@ section p:not(.eyebrow) {
 /* STORYBOARD IMAGE */
 
 .storyboard-image {
-    background: #d8cdbe;
+    background: #8E70FA;
     padding: 18px;
     border-radius: 10px;
     border: 1px solid #a58bff;
@@ -207,7 +211,7 @@ section p:not(.eyebrow) {
 /* DARK VALUES TABLE */
 
 .table-image {
-    background: #191919;
+    background: #8E70FA;
     padding: 14px;
     border: 1px solid #383838;
     border-radius: 10px;
@@ -223,6 +227,97 @@ section p:not(.eyebrow) {
     transform: scale(1.01);
 }
 
+/* SPRINT 2: SCREENSHOTS AND PHOTOS */
+
+.devlog-image-shot {
+    background: #8E70FA;
+    padding: 14px;
+    border: 1px solid #a58bff;
+    border-radius: 10px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.devlog-image-shot img {
+    border-radius: 4px;
+}
+
+.devlog-image-shot figcaption code {
+    color: #ffffff;
+}
+
+.devlog-image-portrait {
+    max-width: 450px;
+}
+
+/* SPRINT 2: CODE, FLOW LINE AND TABLES */
+
+.devlog-section code {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.9em;
+    color: #d7cbff;
+}
+
+.devlog-code {
+    max-width: 750px;
+    margin: 20px 0 30px;
+    padding: 20px 24px;
+    background: #191919;
+    border: 1px solid #292929;
+    border-radius: 6px;
+    overflow-x: auto;
+    line-height: 1.6;
+}
+
+.devlog-code code {
+    color: #d9d6d1;
+    font-size: 13px;
+    white-space: pre;
+}
+
+.devlog-flow {
+    max-width: 750px;
+    margin: 25px 0 30px;
+    padding: 20px 24px;
+    background: #191919;
+    border-left: 3px solid #a58bff;
+    border-radius: 0 6px 6px 0;
+    color: #d9d6d1;
+    font-size: 15px;
+}
+
+.devlog-table-wrap {
+    max-width: 850px;
+    margin: 25px 0 35px;
+    overflow-x: auto;
+}
+
+.devlog-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.devlog-table th,
+.devlog-table td {
+    text-align: left;
+    vertical-align: top;
+    padding: 12px 14px;
+    border-bottom: 1px solid #292929;
+    color: #aaa;
+}
+
+.devlog-table th {
+    color: #f2f0ed;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #3a3a3a;
+}
+
+.devlog-table td:first-child {
+    color: #f2f0ed;
+}
+
 /* FOOTER */
 
 footer {
@@ -233,3 +328,43 @@ footer {
     font-size: 13px;
 }
 
+/* MOBILE */
+
+@media (max-width: 600px) {
+    header {
+        padding: 20px 6%;
+    }
+
+    nav {
+        gap: 14px;
+        font-size: 13px;
+    }
+
+    main {
+        padding: 0 6%;
+    }
+
+    .hero {
+        padding: 100px 0;
+    }
+
+    .devlog-hero {
+        padding: 80px 0 60px;
+    }
+
+    section:not(.hero):not(.devlog-hero) {
+        padding: 55px 0;
+    }
+
+    .storyboard-image {
+        padding: 10px;
+    }
+
+    .table-image {
+        padding: 8px;
+    }
+
+    .devlog-image-shot {
+        padding: 8px;
+    }
+}
